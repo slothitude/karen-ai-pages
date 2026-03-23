@@ -612,9 +612,8 @@ body {
 </div>
 
 <script>
-// ── CONFIG — hits Cloudflare Worker proxy (key lives there, not here) ──
-// Replace this URL with your own after: wrangler deploy
-const NIM_URL = 'https://karen-ai-proxy.YOUR-SUBDOMAIN.workers.dev';
+// ── CONFIG — hits Cloudflare Pages Function (key lives there, not here) ──
+const NIM_URL = '/api/chat';
 let mode = 'concerned';
 let outrage = 12;
 const stats = { complaints:0, managers:0, refunds:0, loyalty:0, accc:0, tiktoks:0, aca:0, boycotts:0 };
