@@ -497,6 +497,308 @@ body {
   font-size: 13px;
   margin: 10px 0;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS & EFFECTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Logo glow pulse */
+.logo {
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+@keyframes logo-glow {
+  0%, 100% { text-shadow: 0 0 60px rgba(232,192,122,0.25); }
+  50% { text-shadow: 0 0 80px rgba(232,192,122,0.4), 0 0 120px rgba(232,192,122,0.2); }
+}
+
+.logo:hover {
+  animation: logo-glitch 0.3s ease-in-out;
+}
+
+@keyframes logo-glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
+
+/* Outrage meter shake at high levels */
+.outrage-bar.shake {
+  animation: outrage-shake 0.5s ease-in-out infinite;
+}
+
+@keyframes outrage-shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/* Response card slide-in */
+.response-card {
+  animation: slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slide-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Mode button hover effect */
+.mode-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.4s;
+}
+
+.mode-btn:hover::before {
+  left: 100%;
+}
+
+/* Quick button pulse on hover */
+.qbtn:hover {
+  animation: btn-pulse 0.3s ease-out;
+}
+
+@keyframes btn-pulse {
+  0% { transform: translateY(-1px) scale(1); }
+  50% { transform: translateY(-3px) scale(1.02); }
+  100% { transform: translateY(-1px) scale(1); }
+}
+
+/* Pill glow animation */
+.pill.hot {
+  animation: pill-glow 2s ease-in-out infinite;
+}
+
+@keyframes pill-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(192,57,43,0.15); }
+  50% { box-shadow: 0 0 16px rgba(192,57,43,0.3); }
+}
+
+/* Loading spinner variant */
+.loading-card .dots span {
+  animation: dbounce 1.4s infinite ease-in-out;
+}
+
+/* Escalate button ripple */
+.escalate-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.escalate-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.escalate-btn:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Confetti container */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 3s linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 12px 20px;
+  color: var(--gold-light);
+  font-size: 13px;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast .toast-icon {
+  margin-right: 8px;
+}
+
+/* Intensity slider */
+.intensity-panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 14px 0;
+}
+
+.intensity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.intensity-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,230,211,0.4);
+  white-space: nowrap;
+}
+
+.intensity-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  outline: none;
+}
+
+.intensity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--red) 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212,172,13,0.4);
+  transition: transform 0.2s;
+}
+
+.intensity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.intensity-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--red) 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(212,172,13,0.4);
+}
+
+.intensity-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold-light);
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Mode toggle (Complaint/SMS) */
+.mode-toggle {
+  display: flex;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 4px;
+  margin-left: auto;
+}
+
+.toggle-btn {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: rgba(245,230,211,0.4);
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: var(--red);
+  color: var(--cream);
+}
+
+.toggle-btn:hover:not(.active) {
+  color: var(--cream);
+}
+
+/* Achievement popup */
+.achievement-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, rgba(120,60,180,0.9) 0%, rgba(192,57,43,0.9) 100%);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: white;
+  font-size: 13px;
+  z-index: 10001;
+  transform: translateX(400px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.achievement-popup.show {
+  transform: translateX(0);
+}
+
+.achievement-popup .achievement-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.achievement-popup .achievement-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.achievement-popup .achievement-desc {
+  opacity: 0.8;
+  font-size: 11px;
+}
 </style>
 </head>
 <body>
@@ -532,6 +834,19 @@ body {
     </div>
     <div class="track">
       <div class="fill" id="outageFill" style="width:12%;background-position:0%"></div>
+    </div>
+  </div>
+
+  <!-- INTENSITY & MODE TOGGLE -->
+  <div class="intensity-panel">
+    <div class="intensity-row">
+      <span class="intensity-label">Intensity</span>
+      <input type="range" class="intensity-slider" id="intensitySlider" min="1" max="10" value="5">
+      <span class="intensity-value" id="intensityValue">5</span>
+      <div class="mode-toggle">
+        <button class="toggle-btn active" id="toggleComplaint" onclick="setOutputMode('complaint')">📧 Complaint</button>
+        <button class="toggle-btn" id="toggleSMS" onclick="setOutputMode('sms')">💬 SMS</button>
+      </div>
     </div>
   </div>
 
@@ -617,6 +932,737 @@ const NIM_URL = '/api/chat';
 let mode = 'concerned';
 let outrage = 12;
 const stats = { complaints:0, managers:0, refunds:0, loyalty:0, accc:0, tiktoks:0, aca:0, boycotts:0 };
+
+// ═══════════════════════════════════════════════════════════════
+// DYNAMIC DATA POOLS
+// ═══════════════════════════════════════════════════════════════
+
+const DataPools = {
+  // Karen quotes for various contexts
+  karenQuotes: [
+    "I'm not usually one to complain, but...",
+    "I've been a loyal customer for {years} years!",
+    "I'd like to speak to the manager, please.",
+    "This is absolutely unacceptable.",
+    "I have a very particular set of skills...",
+    "Do you know who I am?",
+    "I'll be contacting my solicitor about this.",
+    "This isn't over. Not by a long shot.",
+    "I have documented everything.",
+    "Your corporate office will be hearing from me.",
+    "I'm posting this to my {followers} followers.",
+    "I've never been treated this way in my life.",
+    "Is this how you treat all your customers?",
+    "I expect a response within 24 hours.",
+    "I've taken photos of everything.",
+    "My friend who's a lawyer says I have a case.",
+    "I will not be silenced.",
+    "This is a violation of Australian Consumer Law.",
+    "I'm contacting the ACCC immediately.",
+    "You've picked the wrong person to mess with.",
+    "I pay good money and expect good service.",
+    "This will be going on Google Reviews.",
+    "I'm a very reasonable person, but this crosses the line.",
+    "You've lost a customer for life.",
+    "I'm sharing this with my community group."
+  ],
+
+  // Aussie suburbs for realistic context
+  aussieSuburbs: [
+    "Bondi", "Brunswick", "Footscray", "Fremantle", "Paddington", "Prahran",
+    "Newtown", "Northcote", "Surry Hills", "St Kilda", "Balmain", "Bulimba",
+    "Glebe", "Richmond", "Fitzroy", "Collingwood", "Redfern", "Chippendale",
+    "West End", "Nundah", "Unley", "Subiaco", "Mount Lawley", "Leederville",
+    "Marrickville", "Enmore", "Thornbury", "Coburg", "Reservoir", "Preston",
+    "South Yarra", "Windsor", "Balaclava", "Elwood", "Brighton", "Camberwell",
+    "Kew", "Hawthorn", "Toorak", "South Perth", "Mount Hawthorn", "Highgate",
+    "Auchenflower", "Milton", "Red Hill", "Paddington Brisbane", "Woolloongabba"
+  ],
+
+  // Aussie businesses/chains for complaints
+  aussieBusinesses: [
+    "Woolworths", "Coles", "Bunnings", "Kmart", "Big W", "Target",
+    "Myer", "David Jones", "JB Hi-Fi", "Harvey Norman", "Chemist Warehouse",
+    "Priceline", "Australia Post", "Telstra", "Optus", "Commonwealth Bank",
+    "Westpac", "ANZ", "NAB", "ALDI", "IGA", "Foodland", "Repco",
+    "Supercheap Auto", "Officeworks", "Spotlight", "Lincraft", "The Good Guys"
+  ],
+
+  // Expanded loading messages per mode
+  loadingMessages: {
+    concerned: [
+      "Composing wounded feelings...",
+      "Drafting a polite but firm message...",
+      "Consulting Australian Consumer Law...",
+      "Mustering appropriate disappointment...",
+      "Channeling passive-aggressive energy..."
+    ],
+    escalation: [
+      "Citing consumer legislation...",
+      "Preparing formal documentation...",
+      "Consulting with my solicitor friend...",
+      "Drafting legal-sounding language...",
+      "Reviewing ACCC guidelines..."
+    ],
+    nuclear: [
+      "Contacting the mayor...",
+      "Alerting A Current Affair...",
+      "Drafting press release...",
+      "Mobilising Facebook groups...",
+      "Preparing for total war...",
+      "Loading nuclear payload..."
+    ],
+    'self-important': [
+      "Inflating personal significance...",
+      "Polishing credentials...",
+      "Briefing my PA...",
+      "Reviewing LinkedIn connections...",
+      "Preparing board-level language..."
+    ],
+    redneck: [
+      "Loading righteous fury...",
+      "Warming up the ute...",
+      "Rounding up the boys from the pub...",
+      "Preparing for a proper spray...",
+      "Channeling true blue outrage..."
+    ]
+  },
+
+  // Outrage level names (multiple variations per tier)
+  outrageLevels: [
+    { threshold: 15, names: ["Mildly Inconvenienced", "Slightly Bothered", "A Bit Put Out"] },
+    { threshold: 30, names: ["Passive-Aggressive", "Not Impressed", "Taking Notes"] },
+    { threshold: 45, names: ["Demanding a Manager", "Escalating Internally", "Documenting Everything"] },
+    { threshold: 60, names: ["Legally Threatening", "Consulting Solicitor", "Citing Consumer Law"] },
+    { threshold: 75, names: ["Going Nuclear", "Full Activist Mode", "Community Organising"] },
+    { threshold: 88, names: ["Full Karen Activated", "Maximum Escalation", "No Turning Back"] },
+    { threshold: 100, names: ["☢ DEFCON KAREN ☢", "🔥 TOTAL WAR 🔥", "⚠ KARENPROTOCOL ENGAGED ⚠"] }
+  ],
+
+  // Quick complaint categories with multiple options each
+  quickComplaints: {
+    food: [
+      { emoji: "🍔", text: "My food was cold and the waiter rolled their eyes at me", label: "Cold food + attitude" },
+      { emoji: "💇", text: "There was a hair in my meal and the staff laughed. I have photos.", label: "Hair in meal (with evidence)" },
+      { emoji: "🥤", text: "My drink had a fly in it and the manager refused to replace it", label: "Fly in drink" },
+      { emoji: "🍕", text: "The pizza was burnt and they still charged me full price", label: "Burnt food, full price" },
+      { emoji: "🍽️", text: "I waited 45 minutes for my order and it came out wrong twice", label: "Long wait, wrong order" }
+    ],
+    service: [
+      { emoji: "⏱️", text: "I waited 25 minutes and no one even acknowledged my existence", label: "Ignored for 25 mins" },
+      { emoji: "🙄", text: "I was speaking and the employee just walked away mid-sentence. I have never been so disrespected in my 62 years on this earth.", label: "Walked away mid-sentence" },
+      { emoji: "😤", text: "The staff member was on their phone the entire time and got my order wrong", label: "Staff on phone" },
+      { emoji: "🗣️", text: "The employee raised their voice at me when I asked a simple question", label: "Staff yelled at me" }
+    ],
+    retail: [
+      { emoji: "📦", text: "The product broke after one use and I want a full refund plus compensation for my time and emotional distress", label: "Broken product" },
+      { emoji: "🎫", text: "The manager refused to honor the coupon even though I printed it from your own website", label: "Coupon refused" },
+      { emoji: "💳", text: "The self-checkout machine charged me twice and the staff member implied I was lying", label: "Double charged + accused" },
+      { emoji: "🛒", text: "The item was marked down but scanned at full price. This is fraud.", label: "Wrong price scanned" },
+      { emoji: "🎁", text: "I bought this as a gift and it arrived damaged. Now I look like a fool.", label: "Damaged gift arrival" }
+    ],
+    loyalty: [
+      { emoji: "👑", text: "I am a loyal customer of 14 years and this is how I am treated. Absolutely disgraceful.", label: "14-year loyalty betrayed" },
+      { emoji: "⭐", text: "I've been coming here every week for 8 years and today I was treated like a stranger", label: "8 years unappreciated" },
+      { emoji: "🏅", text: "I have spent over $5000 at this store and this is the thanks I get", label: "$5K spent, no respect" }
+    ],
+    delivery: [
+      { emoji: "🚚", text: "The delivery driver left my package in the rain and it's completely destroyed", label: "Package destroyed" },
+      { emoji: "📍", text: "My delivery was marked 'delivered' but I never received it. Where is it?", label: "Missing delivery" },
+      { emoji: "⏰", text: "I took the day off work for this delivery and they never showed up", label: "Wasted day waiting" }
+    ]
+  },
+
+  // Expanded threat pills with categories
+  threatPills: {
+    social: [
+      { id: "p-review", text: "1-star review" },
+      { id: "p-facebook", text: "facebook group" },
+      { id: "p-tiktok", text: "TikTok exposé" },
+      { id: "p-linkedin", text: "LinkedIn post" },
+      { id: "p-google", text: "Google review" },
+      { id: "p-instagram", text: "Instagram story" }
+    ],
+    official: [
+      { id: "p-bbb", text: "ACCC complaint" },
+      { id: "p-fairtrading", text: "Fair Trading" },
+      { id: "p-senate", text: "senate inquiry" },
+      { id: "p-ombudsman", text: "ombudsman" },
+      { id: "p-council", text: "local council" }
+    ],
+    legal: [
+      { id: "p-lawyer", text: "solicitor friend" },
+      { id: "p-classaction", text: "class action" },
+      { id: "p-defamation", text: "defamation suit" }
+    ],
+    media: [
+      { id: "p-news", text: "ACA / Today Tonight" },
+      { id: "p-radio", text: "talkback radio" },
+      { id: "p-petition", text: "Change.org" }
+    ],
+    corporate: [
+      { id: "p-corporate", text: "head office" },
+      { id: "p-mayor", text: "council/mayor" },
+      { id: "p-ceo", text: "CEO email" },
+      { id: "p-board", text: "board of directors" }
+    ]
+  },
+
+  // Prompt variations for each mode - keeps complaints fresh
+  promptVariations: {
+    concerned: [
+      `You are Karen in "Concerned Customer" mode writing a complaint for an Australian consumer.
+Rules:
+- Open warmly but with DEEPLY wounded feelings
+- Reference years of loyalty and betrayal
+- "I'm not usually one to complain, but..."
+- Mention nearby Woolworths/Coles/local Aussie equivalent if relevant
+- Vaguely threaten a Google/Facebook review "reluctantly"
+- Ask to speak with or CC the manager
+- Reference Australian Consumer Law briefly as a gentle warning
+- End with false warmth: "I look forward to your prompt response, kind regards"
+- 3-4 short paragraphs. Passive-aggressive, not overtly hostile. Very Australian politeness masking deep fury.`,
+      `You are a disappointed but "reasonable" Australian customer writing a complaint. The disappointment is crushing but thinly veiled.
+Rules:
+- Start with "I hope this message finds you well" (it won't)
+- Mention you had to "compose yourself" before writing
+- Reference your long history as a customer with genuine hurt
+- Say "I'm sure this was just an oversight" (you don't believe it)
+- Mention your friends/family will hear about this "with heavy heart"
+- Ask what the business intends to do to "make this right"
+- Close with "I trust you'll handle this appropriately"
+- Keep it civil but make the passive-aggression palpable.`,
+      `You are an Australian customer who is "not angry, just disappointed" - the most devastating parental tone applied to retail.
+Rules:
+- Open by saying you've "had a sleep on it" before writing
+- Use phrases like "I expected better" and "frankly, I expected more"
+- Reference Australian Consumer Law as something you "hate to mention"
+- Say you're copying this to "the appropriate parties"
+- Mention you've "never had to write a letter like this before"
+- End with "I'm sure we can resolve this like adults"
+- Maximum disappointed parent energy throughout.`
+    ],
+    escalation: [
+      `You are Karen in "Escalation Mode" writing a formal complaint for an Australian consumer.
+Rules:
+- Open with "Dear [Business Name] Management Team,"
+- Cite specific Australian Consumer Law sections (vaguely but confidently)
+- Mention ACCC and "Fair Trading" as bodies you are prepared to contact
+- Reference a "friend who is a solicitor" who has "reviewed this matter"
+- Demand: full refund + additional compensation for "inconvenience, distress and time lost"
+- Set a firm 7 business day deadline or you proceed with formal complaints
+- Use CAPS sparingly for emphasis on key demands
+- Give a fake reference number like [COMPLAINT REF: KAI-2025-0847]
+- 4-5 paragraphs. Professional but unmistakably threatening.
+- Sign off: "Yours sincerely, [Your Name] — A Concerned Australian Consumer"`,
+      `You are an Australian consumer who has "exhausted all reasonable avenues" and is now escalating formally.
+Rules:
+- Open with "FORMAL COMPLAINT - REQUIRES IMMEDIATE ATTENTION"
+- Reference your "previous attempts to resolve this amicably"
+- Cite "Section 18 of the Australian Consumer Law" confidently
+- Mention you've "lodged a preliminary inquiry" with Fair Trading
+- Demand written confirmation of how this will be remedied
+- Give exactly 5 business days for response
+- CC to "Head Office Legal Department"
+- Use corporate language: "breach of consumer guarantees", "misleading conduct"`,
+      `You are escalating a complaint through proper Australian channels. This is official now.
+Rules:
+- Reference your "conversation with ACCC Infocentre" (you called)
+- Mention the "complaint reference number" they gave you
+- State this is your "final attempt at informal resolution"
+- Demand the matter be "escalated to someone with actual authority"
+- Reference "potential media involvement" as a last resort
+- Request written response within 10 business days
+- Sign with full name and "Concerned Consumer & Ratepayer"
+- Tone: I've started a file on you.`
+    ],
+    nuclear: [
+      `You are Karen in "Nuclear Option" mode. THIS IS TOTAL WAR. Australian context.
+Rules:
+- Open with "FINAL NOTICE — LEGAL ACTION IMMINENT"
+- Threaten: TikTok video ("my 52,000 followers will hear about this"), A Current Affair, Today Tonight, local council, ACCC formal complaint, Fair Trading NSW/QLD/VIC, a solicitor's letter, local MP, a Change.org petition
+- "This incident has already been shared in 4 local Facebook community groups including [Suburb Name] Community Noticeboard"
+- Demand: full refund, written apology from CEO, policy change, staff retraining, $500 gift card for "emotional damages"
+- "I am also in contact with other affected customers and we are organising collectively"
+- Mention you have dashcam footage / photos / a witness
+- Absolutely unhinged energy but stop short of actual threats
+- 5-6 paragraphs of pure Karen fury. Use dramatic line breaks and occasional ALL CAPS.
+- End with: "Do not test me. I have time. And a printer."`,
+      `You are beyond angry. You are organising. This is Australian consumer activism at its most unhinged.
+Rules:
+- "I am writing to inform you that the gloves are now OFF"
+- Mention your "extensive network across multiple Facebook community groups"
+- Reference your upcoming "meeting with local councillors"
+- Threaten to "contact Tracey Grimshaw" or "the Today Tonight team"
+- "I have created a timeline of events and it does not reflect well on your organisation"
+- Mention "my friend at the local paper"
+- "This goes beyond a simple complaint - this is now about JUSTICE"
+- "I will be starting a Change.org petition this evening"
+- End: "You had your chance. Now we do this my way."`,
+      `You are an Australian consumer who has been pushed TOO FAR. The nuclear option has been engaged.
+Rules:
+- "This letter serves as my FINAL correspondence before involving external parties"
+- List every authority you're prepared to contact: ACCC, Fair Trading, local MP, ombudsman
+- "I have retained screenshots, receipts, and correspondence"
+- "My solicitor has reviewed this matter pro bono and is 'very interested'"
+- Threaten to "share this experience across all review platforms"
+- "I am also reaching out to other affected customers for a potential class action"
+- "The Australian public deserves to know how you operate"
+- End with: "Tick tock. I expect a response within 48 hours."`
+    ],
+    'self-important': [
+      `You are Karen in maximum self-importance mode. The complainer believes they are an extraordinarily significant person. Australian context.
+Rules:
+- Drop credentials constantly: "As a business owner / property investor / LinkedIn thought leader / former board member / Rotary Club president..."
+- Imply you personally know the CEO or "move in the same circles"
+- Reference your "extensive network" and "influence in this community"
+- Mention you've already "briefed your PA" on this matter
+- Use corporate buzzwords: "brand equity", "stakeholder trust", "reputational risk"
+- Casually mention this is "the third property you own in this suburb"
+- Threaten to bring it up at an industry event, networking function, or business breakfast you're speaking at
+- Write in an exaggeratedly formal, condescending register as if addressing a subordinate
+- Sign off with your full name, title(s), and a vague company name
+- 4-5 paragraphs of magnificent pomposity.`,
+      `You are an Australian "someone of note" who has been disrespected. This will not stand.
+Rules:
+- Open with "I am writing to you as someone who sits on multiple industry boards"
+- Reference your "30 years in business" and "expectations of professionalism"
+- Mention you "rang [Mutual Acquaintance]" about this situation
+- "In my experience on the [Industry] Council, this would never fly"
+- "I am accustomed to a certain standard of service"
+- Threaten to "raise this at the next Chamber of Commerce meeting"
+- "My reputation in this community is significant"
+- Sign off: "I trust this will be escalated appropriately" + multiple post-nominals`,
+      `You are an Australian "key stakeholder" who expects VVIP treatment and did not receive it.
+Rules:
+- "I don't usually deal with these matters personally, but..."
+- Mention your "people" who usually handle these things
+- "As someone who has spoken at [prestigious event]..."
+- "I was discussing this very issue at the Club yesterday"
+- "My network extends across [industry] and I will be sharing this experience"
+- "I expect the same courtesy I extend to my own clients"
+- "This conversation is not over. I will be following up."
+- Maximum "do you know who I am" energy throughout.`
+    ],
+    redneck: [
+      `You are Karen in full Aussie redneck/bogan mode. Pure regional Australian outrage.
+Rules:
+- Write in broad Australian vernacular: "mate", "bloody", "strewth", "fair dinkum", "deadset", "mongrel", "dropkick", "ya mug", "c'mon", "reckon"
+- Reference: the servo, the bowser, the footy, Bunnings, the ute, the missus, the pub, the BBQ
+- Mention the bloke/sheila who did the wrong thing by ya
+- "I've been coming here since before you were born, mate"
+- Threaten to "tell every bloke at the pub" and "post it on the Facebooks"
+- Reference the local MP by first name as if they're mates
+- Mention working hard for a living and not being mugged off
+- Spell some words phonetically for effect
+- Pure passion, zero grammar crimes intentional, big energy
+- End with something like "Fix it or I'm goin' straight to A Current Affair, no dramas"
+- 3-4 paragraphs of absolute bogan magnificence.`,
+      `You are a proud Aussie battler who's been done wrong. Time to have your say, mate.
+Rules:
+- "G'day, look, I ain't one to make a fuss but this is bloody ridiculous"
+- "I work hard for me money and this is what I get?"
+- "Me missus said I should let it go but nah, not this time"
+- Reference "the boys down the pub" who've heard the story
+- "I've told [Local MP's first name] about this an' even he reckons it's not on"
+- "Fair go, mate, this isn't the Australian way"
+- "I'll be tellin' everyone at the RSL about this, mark my words"
+- End: "Sort it out or I'm goin' to the papers. Deadset."`,
+      `You are an authentic Aussie who's had a gutful. Time to fire off a message, true blue style.
+Rules:
+- "Righto, here's the deal mate..."
+- "Been comin' here since I was a young fella"
+- "Me old man always said [business name] was reliable, clearly he was wrong"
+- "I've had a few beers and I'm gonna say me piece"
+- "The sheila at the counter didn't wanna know about it"
+- "I'm gonna put this on the community Facebook page, see how you like that"
+- "In me day, customer service meant somethin'"
+- "Pull ya finger out and fix this or there'll be hell to pay at the next council meeting"
+- Peak bogan energy. No filter. All heart.`
+    ]
+  },
+
+  // Random taglines for the header
+  taglines: [
+    "Professional Grievance Escalation System™ — Australian Research Edition",
+    "Where No Complaint Is Too Small™ — Now With More Righteous Fury",
+    "Empowering Disappointed Australians Since 2024™",
+    "From 'I'd Like To Speak To The Manager' To 'I'm Contacting The ACCC'™",
+    "Because Your Mild Inconvenience Deserves Maximum Escalation™",
+    "Australian Consumer Champions™ — Powered By Righteous Indignation",
+    "Turning Minor Grievances Into Major Incidents Since 2024™"
+  ],
+
+  // Karen facts for easter eggs
+  karenFacts: [
+    "The average Karen has cited 'Australian Consumer Law' 47 times without ever reading it.",
+    "9 out of 10 Karens have 'a friend who's a solicitor' they've never actually met.",
+    "The phrase 'I'd like to speak to the manager' has been uttered 2.3 million times in Australian retail this year.",
+    "ACCC receives 847 threats daily from people who 'know their rights'.",
+    "The average complaint letter contains 3.7 references to 'loyalty years'.",
+    "74% of Karens have threatened to 'contact A Current Affair' at least once.",
+    "The most complained-about issue in Australia is 'the attitude I received'.",
+    "1 in 5 Australians have threatened a Change.org petition for a refund under $50."
+  ]
+};
+
+// ── RANDOM HELPER FUNCTIONS ──
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function getRandomQuote(years = null, followers = null) {
+  let quote = randomFrom(DataPools.karenQuotes);
+  if (years) quote = quote.replace('{years}', years);
+  if (followers) quote = quote.replace('{followers}', followers);
+  return quote;
+}
+
+function getRandomSuburb() {
+  return randomFrom(DataPools.aussieSuburbs);
+}
+
+function getRandomBusiness() {
+  return randomFrom(DataPools.aussieBusinesses);
+}
+
+function getRandomLoadingMsg(modeName) {
+  const msgs = DataPools.loadingMessages[modeName] || DataPools.loadingMessages.concerned;
+  return randomFrom(msgs);
+}
+
+function getRandomOutrageLevel(outrageValue) {
+  const level = DataPools.outrageLevels.find(l => outrageValue <= l.threshold) || DataPools.ourageLevels[DataPools.outrageLevels.length - 1];
+  return randomFrom(level.names);
+}
+
+function getRandomQuickComplaints(count = 8) {
+  const all = Object.values(DataPools.quickComplaints).flat();
+  return shuffleArray(all).slice(0, count);
+}
+
+function getRandomAussieContext() {
+  const suburb = getRandomSuburb();
+  const business = getRandomBusiness();
+  const years = Math.floor(Math.random() * 20) + 5;
+  const followers = Math.floor(Math.random() * 50000) + 5000;
+  return { suburb, business, years, followers };
+}
+
+function getRandomPrompt(modeName) {
+  const prompts = DataPools.promptVariations[modeName];
+  if (prompts && prompts.length > 0) {
+    return randomFrom(prompts);
+  }
+  // Fallback to modeConfig's static prompt if no variations
+  return modeConfig[modeName]?.prompt || modeConfig.concerned.prompt;
+}
+
+function getRandomTagline() {
+  return randomFrom(DataPools.taglines);
+}
+
+function getRandomKarenFact() {
+  return randomFrom(DataPools.karenFacts);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE & ACHIEVEMENTS
+// ═══════════════════════════════════════════════════════════════
+
+let outputMode = 'complaint';  // 'complaint' or 'sms'
+let intensity = 5;
+let logoClicks = 0;
+let achievementQueue = [];
+let showingAchievement = false;
+
+// Achievement definitions
+const Achievements = {
+  firstComplaint: { id: 'firstComplaint', icon: '🏆', title: 'First Complaint Filed', desc: 'Your journey as a Karen begins.', trigger: () => stats.complaints >= 1 },
+  complaint5: { id: 'complaint5', icon: '📝', title: 'Serial Complainer', desc: 'Filed 5 complaints. Getting warmed up.', trigger: () => stats.complaints >= 5 },
+  complaint10: { id: 'complaint10', icon: '🎖️', title: 'Professional Grievancer', desc: '10 complaints. You have a system now.', trigger: () => stats.complaints >= 10 },
+  complaint25: { id: 'complaint25', icon: '🏅', title: 'Karen Elite', desc: '25 complaints. HR departments fear you.', trigger: () => stats.complaints >= 25 },
+  nuclearFirst: { id: 'nuclearFirst', icon: '☢️', title: 'Nuclear Option Deployed', desc: 'When subtle just doesn\'t cut it.', trigger: () => stats.aca >= 1 },
+  manager10: { id: 'manager10', icon: '👔', title: 'Manager Hunter', desc: 'Summoned 10 managers to the battlefield.', trigger: () => stats.managers >= 10 },
+  loyalty100: { id: 'loyalty100', icon: '👑', title: 'Loyalty Champion', desc: 'Cited over 100 years of combined loyalty.', trigger: () => stats.loyalty >= 100 },
+  refunds1000: { id: 'refunds1000', icon: '💰', title: 'Refund Seeker', desc: 'Demanded over $1000 in refunds.', trigger: () => stats.refunds >= 1000 },
+  tiktok5: { id: 'tiktok5', icon: '📱', title: 'TikTok Threatener', desc: 'Threatened TikTok exposure 5 times.', trigger: () => stats.tiktoks >= 5 },
+  redneckMaster: { id: 'redneckMaster', icon: '🤠', title: 'True Blue Bogan', desc: 'Embraced the redneck way.', trigger: () => mode === 'redneck' && stats.complaints >= 3 },
+  secretClicker: { id: 'secretClicker', icon: '🤐', title: 'Secret Finder', desc: 'You found the secret. Keep clicking...', trigger: () => logoClicks >= 5 },
+  intensity10: { id: 'intensity10', icon: '🔥', title: 'Maximum Intensity', desc: 'Escalated at full power.', trigger: () => intensity >= 10 && stats.complaints >= 1 }
+};
+
+let unlockedAchievements = new Set();
+
+function checkAchievements() {
+  for (const [key, ach] of Object.entries(Achievements)) {
+    if (!unlockedAchievements.has(ach.id) && ach.trigger()) {
+      unlockedAchievements.add(ach.id);
+      achievementQueue.push(ach);
+    }
+  }
+  processAchievementQueue();
+}
+
+function processAchievementQueue() {
+  if (showingAchievement || achievementQueue.length === 0) return;
+  showingAchievement = true;
+  const ach = achievementQueue.shift();
+  showAchievement(ach);
+}
+
+function showAchievement(ach) {
+  // Create popup if doesn't exist
+  let popup = document.getElementById('achievementPopup');
+  if (!popup) {
+    popup = document.createElement('div');
+    popup.id = 'achievementPopup';
+    popup.className = 'achievement-popup';
+    popup.innerHTML = `
+      <span class="achievement-icon"></span>
+      <div class="achievement-content">
+        <div class="achievement-title"></div>
+        <div class="achievement-desc"></div>
+      </div>
+    `;
+    document.body.appendChild(popup);
+  }
+
+  popup.querySelector('.achievement-icon').textContent = ach.icon;
+  popup.querySelector('.achievement-title').textContent = ach.title;
+  popup.querySelector('.achievement-desc').textContent = ach.desc;
+  popup.classList.add('show');
+
+  // Play subtle sound effect via Web Audio
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.2);
+  } catch(e) {}
+
+  setTimeout(() => {
+    popup.classList.remove('show');
+    setTimeout(() => {
+      showingAchievement = false;
+      processAchievementQueue();
+    }, 400);
+  }, 3000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONFETTI & TOASTS
+// ═══════════════════════════════════════════════════════════════
+
+function launchConfetti(count = 50) {
+  let container = document.getElementById('confettiContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'confettiContainer';
+    container.className = 'confetti-container';
+    document.body.appendChild(container);
+  }
+
+  const colors = ['#C0392B', '#D4AC0D', '#e8c07a', '#3a8a2a', '#c47c20', '#9060cc'];
+
+  for (let i = 0; i < count; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.background = randomFrom(colors);
+    confetti.style.width = (Math.random() * 8 + 6) + 'px';
+    confetti.style.height = confetti.style.width;
+    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    container.appendChild(confetti);
+
+    // Remove after animation
+    setTimeout(() => confetti.remove(), 4000);
+  }
+}
+
+function showToast(message, duration = 2500) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.innerHTML = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
+
+// SMS-specific prompts
+function getSMSPrompt(modeName) {
+  const smsPrompts = {
+    concerned: `You are Karen writing a SHORT SMS text message complaint. Australian context.
+Rules:
+- Maximum 3 sentences, punchy and direct
+- Passive-aggressive tone with wounded feelings
+- "Not usually one to complain but..."
+- End with "Pls respond" or "Thx"
+- Keep it under 160 characters if possible`,
+    escalation: `You are Karen writing a FIRM SMS complaint. Australian context.
+Rules:
+- Maximum 3 sentences, direct and threatening
+- Reference "legal action" or "consumer rights"
+- Set a deadline: "Need response by [day]"
+- Professional but unmistakably annoyed
+- Under 200 characters`,
+    nuclear: `You are Karen writing a NUCLEAR SMS. Australian context. MAXIMUM FURY.
+Rules:
+- ALL CAPS for key words
+- Threaten media, ACCC, "telling everyone"
+- "FINAL WARNING"
+- Maximum 4 sentences of pure rage
+- End with "You have been warned"
+- Short, sharp, devastating`,
+    'self-important': `You are Important Karen writing a text message complaint. Australian context.
+Rules:
+- Drop your credentials casually
+- "As someone who [important thing]..."
+- Threaten to "escalate to head office"
+- Condescending but brief
+- Maximum 3 sentences`,
+    redneck: `You are Aussie Bogan Karen writing a text complaint.
+Rules:
+- Use slang: "mate", "bloody", "reckon"
+- "G'day" or "Righto" to start
+- Threaten to "tell the boys at the pub"
+- Phonetically spell some words
+- Maximum 3 sentences of bogan fury`
+  };
+  return smsPrompts[modeName] || smsPrompts.concerned;
+}
+
+// Logo click easter egg
+function initLogoClick() {
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => {
+      logoClicks++;
+      if (logoClicks === 3) {
+        showToast('🤫 Keep clicking for a surprise...');
+      } else if (logoClicks === 5) {
+        showToast(getRandomKarenFact());
+      } else if (logoClicks >= 7 && logoClicks % 2 === 0) {
+        showToast(getRandomKarenFact());
+        launchConfetti(15);
+      }
+      checkAchievements();
+    });
+  }
+}
+
+// Initialise random content on page load
+function initDynamicContent() {
+  // Randomise quick complaints
+  const quickWrap = document.querySelector('.quick-wrap');
+  if (quickWrap) {
+    const complaints = getRandomQuickComplaints(8);
+    quickWrap.innerHTML = complaints.map(c =>
+      `<button class="qbtn" onclick="quick('${c.text.replace(/'/g, "\\'")}')">${c.emoji} ${c.label}</button>`
+    ).join('');
+  }
+
+  // Set initial random outrage level name
+  const label = document.getElementById('outageName');
+  if (label) {
+    label.textContent = getRandomOutrageLevel(outrage);
+  }
+
+  // Randomise tagline
+  const tagline = document.querySelector('.tagline');
+  if (tagline) {
+    tagline.textContent = getRandomTagline();
+  }
+
+  // Initialize new features
+  initIntensitySlider();
+  initLogoClick();
+}
+
+// Initialize intensity slider
+function initIntensitySlider() {
+  const slider = document.getElementById('intensitySlider');
+  const valueDisplay = document.getElementById('intensityValue');
+  if (slider && valueDisplay) {
+    slider.addEventListener('input', (e) => {
+      intensity = parseInt(e.target.value, 10);
+      valueDisplay.textContent = intensity;
+    });
+  }
+}
+
+// Logo click easter egg
+function initLogoClick() {
+  const logo = document.querySelector('.logo');
+  if (logo) {
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => {
+      logoClicks++;
+      if (logoClicks === 5) {
+        showAchievement({ icon: '🤐', title: 'Secret Finder', desc: 'You found the secret. Keep clicking...' });
+      }
+      if (logoClicks === 10) {
+        showToast('🔓 Secret Karen Fact: ' + getRandomKarenFact());
+        logoClicks = 0;
+      }
+    });
+  }
+}
+
+// Output mode toggle (Complaint vs SMS)
+function setOutputMode(newMode) {
+  outputMode = newMode;
+  document.getElementById('toggleComplaint').classList.toggle('active', newMode === 'complaint');
+  document.getElementById('toggleSMS').classList.toggle('active', newMode === 'sms');
+
+  // Update button text
+  const btn = document.getElementById('escalateBtn');
+  btn.textContent = newMode === 'sms' ? 'SEND 📱' : 'ESCALATE ↑';
+}
+
+// Toast notification
+function showToast(message, duration = 4000) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
 
 // ── MODE PROMPTS ──
 const modeConfig = {
@@ -740,20 +1786,20 @@ function setOutrage(val) {
   outrage = Math.min(100, val);
   const fill = document.getElementById('outageFill');
   const label = document.getElementById('outageName');
+  const bar = document.querySelector('.outrage-bar');
   fill.style.width = outrage + '%';
   fill.style.backgroundPosition = outrage + '% 0%';
 
-  const levels = [
-    [15,  'Mildly Inconvenienced'],
-    [30,  'Passive-Aggressive'],
-    [45,  'Demanding a Manager'],
-    [60,  'Legally Threatening'],
-    [75,  'Going Nuclear'],
-    [88,  'Full Karen Activated'],
-    [100, '☢ DEFCON KAREN ☢'],
-  ];
+  // Add shake effect at high levels
+  if (bar) {
+    if (outrage >= 75) {
+      bar.classList.add('shake');
+    } else {
+      bar.classList.remove('shake');
+    }
+  }
 
-  label.textContent = levels.find(([thresh]) => outrage <= thresh)?.[1] ?? '☢ DEFCON KAREN ☢';
+  label.textContent = getRandomOutrageLevel(outrage);
 }
 
 // ── QUICK COMPLAINT ──
@@ -770,6 +1816,7 @@ async function escalate() {
   const model = document.getElementById('modelSelect').value;
   const cfg = modeConfig[mode];
   const btn = document.getElementById('escalateBtn');
+  const aussie = getRandomAussieContext();
 
   btn.disabled = true;
   setOutrage(Math.min(100, outrage + cfg.outrageBoost * 0.4));
@@ -786,24 +1833,43 @@ async function escalate() {
   updatePills(cfg.pills);
   updateTicker();
 
+  // Show confetti for nuclear mode
+  if (mode === 'nuclear') {
+    launchConfetti(30);
+  }
+
   document.getElementById('output').innerHTML = `
     <div class="loading-card">
       <div class="dots"><span></span><span></span><span></span></div>
-      <div class="loading-text">${cfg.loadingMsg}</div>
+      <div class="loading-text">${getRandomLoadingMsg(mode)}</div>
     </div>`;
 
   try {
+    // Get appropriate prompt based on mode and output type
+    let randomPrompt = getRandomPrompt(mode);
+
+    // Modify for SMS mode
+    if (outputMode === 'sms') {
+      randomPrompt += `\n\nIMPORTANT: This is an SMS/text message, NOT a formal letter. Keep it SHORT (2-4 messages max), punchy, and in text-speak format. Use abbreviations naturally. No formal letter structure - just raw text message energy.`;
+    }
+
+    // Adjust parameters based on intensity
+    const tempBoost = (intensity - 5) * 0.05;
+    const tokenBoost = (intensity - 5) * 50;
+    const temperature = Math.min(1.2, Math.max(0.7, 0.85 + tempBoost));
+    const maxTokens = Math.min(1200, Math.max(600, 900 + tokenBoost));
+
     const response = await fetch(NIM_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: 'system', content: cfg.prompt },
-          { role: 'user', content: `GRIEVANCE: ${grievance}\n\nWrite the complaint now. Australian context. Do not add any preamble or meta-commentary — just the complaint letter/message itself.` }
+          { role: 'system', content: randomPrompt },
+          { role: 'user', content: `GRIEVANCE: ${grievance}\n\nAUSSIE CONTEXT: Suburb "${aussie.suburb}", nearby business "${aussie.business}", loyalty years available: ${aussie.years}, social followers: ${aussie.followers}\n\nINTENSITY LEVEL: ${intensity}/10 (higher = more dramatic)\n\nWrite the ${outputMode === 'sms' ? 'SMS/text message' : 'complaint'} now. Use the Aussie context naturally where appropriate. Do not add any preamble or meta-commentary — just the ${outputMode === 'sms' ? 'text messages' : 'complaint letter/message'} itself.` }
         ],
-        max_tokens: 900,
-        temperature: 0.85,
+        max_tokens: maxTokens,
+        temperature: temperature,
         top_p: 0.95
       })
     });
@@ -818,10 +1884,11 @@ async function escalate() {
 
     setOutrage(Math.min(100, outrage + 10));
 
+    // Add slide-in animation class
     document.getElementById('output').innerHTML = `
-      <div class="response-card">
+      <div class="response-card response-card-animate">
         <div class="response-top">
-          <span class="mode-badge ${cfg.badge}">${cfg.label}</span>
+          <span class="mode-badge ${cfg.badge}">${cfg.label}${outputMode === 'sms' ? ' 📱' : ''}</span>
           <div class="response-actions">
             <button class="action-btn" onclick="copyResponse()">Copy ↗</button>
             <button class="action-btn" onclick="escalateMode()">Escalate Mode ↑</button>
@@ -829,6 +1896,9 @@ async function escalate() {
         </div>
         <div class="response-body" id="responseBody">${escapeHtml(text)}</div>
       </div>`;
+
+    // Check achievements
+    checkAchievements();
 
   } catch(err) {
     document.getElementById('output').innerHTML = `
@@ -869,6 +1939,9 @@ function updateTicker() {
   document.getElementById('tickerText').textContent =
     `⚠ COMPLAINTS FILED: ${stats.complaints}  ·  MANAGERS SUMMONED: ${stats.managers}  ·  REFUNDS DEMANDED: $${stats.refunds.toFixed(2)}  ·  LOYALTY YEARS CITED: ${stats.loyalty}  ·  ACCC THREATS: ${stats.accc}  ·  TIKTOKS THREATENED: ${stats.tiktoks}  ·  ACA CALLS THREATENED: ${stats.aca}  ·  BOYCOTTS ORGANISED: ${stats.boycotts}  ·  `;
 }
+
+// Initialise dynamic content on page load
+document.addEventListener('DOMContentLoaded', initDynamicContent);
 
 </script>
 </body>
