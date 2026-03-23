@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAREN AI — Professional Grievance Escalation System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #C0392B;
+  --red-dark: #8b0000;
+  --red-glow: rgba(192,57,43,0.4);
+  --gold: #D4AC0D;
+  --gold-light: #e8c07a;
+  --cream: #f5e6d3;
+  --cream-dim: rgba(245,230,211,0.6);
+  --cream-faint: rgba(245,230,211,0.15);
+  --bg: #120404;
+  --bg2: #1e0808;
+  --border: rgba(192,57,43,0.3);
+  --green: #3a8a2a;
+  --green-glow: rgba(58,138,42,0.3);
+  --redneck: #c47c20;
+  --redneck-glow: rgba(196,124,32,0.3);
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(192,57,43,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(139,0,0,0.06) 0%, transparent 60%);
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  padding: 32px 0 24px;
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), var(--gold), var(--red), transparent);
+  margin-top: 20px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 8vw, 56px);
+  font-weight: 900;
+  color: var(--gold-light);
+  letter-spacing: -2px;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(232,192,122,0.25);
+}
+
+.logo span { color: var(--red); }
+
+.tagline {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,230,211,0.35);
+  margin-top: 8px;
+}
+
+/* ── MODEL SELECT PANEL ── */
+.api-panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.api-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,230,211,0.4);
+  white-space: nowrap;
+}
+
+.model-select {
+  flex: 1;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+  min-width: 220px;
+}
+
+.model-select option { background: #1a0505; }
+
+.api-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3a8a2a;
+  box-shadow: 0 0 6px var(--green-glow);
+  flex-shrink: 0;
+}
+
+/* ── OUTRAGE ── */
+.outrage-bar {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.outrage-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.outrage-row-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,230,211,0.4);
+}
+
+.outrage-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold-light);
+  transition: color 0.4s;
+}
+
+.track {
+  height: 7px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3a8a2a 0%, #c47c20 30%, var(--gold) 55%, var(--red) 75%, #5a0000 100%);
+  background-size: 300% 100%;
+  transition: width 0.7s cubic-bezier(0.34,1.56,0.64,1), background-position 0.5s;
+}
+
+/* ── MODES ── */
+.modes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+@media (max-width: 600px) {
+  .modes { grid-template-columns: repeat(3, 1fr); }
+  .modes .mode-btn:nth-child(4) { border-top: 1px solid var(--border); }
+  .modes .mode-btn:nth-child(5) { border-top: 1px solid var(--border); }
+}
+
+.mode-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  color: rgba(245,230,211,0.4);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 12px 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.mode-btn:last-child { border-right: none; }
+
+.mode-btn:hover {
+  background: rgba(255,255,255,0.04);
+  color: var(--cream);
+}
+
+.mode-btn.active { color: var(--gold-light); }
+.mode-btn.active[data-mode="concerned"] { background: rgba(58,138,42,0.12); border-bottom: 2px solid #3a8a2a; }
+.mode-btn.active[data-mode="escalation"] { background: rgba(212,172,13,0.12); border-bottom: 2px solid var(--gold); }
+.mode-btn.active[data-mode="nuclear"] { background: rgba(192,57,43,0.18); border-bottom: 2px solid var(--red); }
+.mode-btn.active[data-mode="self-important"] { background: rgba(120,60,180,0.18); border-bottom: 2px solid #9060cc; color: #c090ff; }
+.mode-btn.active[data-mode="redneck"] { background: rgba(196,124,32,0.2); border-bottom: 2px solid var(--redneck); color: #f0a040; }
+
+.mode-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+
+/* ── QUICK BTNS ── */
+.quick-section {
+  margin: 14px 0;
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,230,211,0.3);
+  margin-bottom: 8px;
+}
+
+.quick-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.qbtn {
+  padding: 6px 13px;
+  border: 1px solid rgba(192,57,43,0.28);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  color: rgba(245,230,211,0.65);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.qbtn:hover {
+  background: rgba(192,57,43,0.18);
+  border-color: rgba(192,57,43,0.55);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+/* ── INPUT ── */
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin: 14px 0;
+}
+
+.grievance-input {
+  flex: 1;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 10px;
+  padding: 13px 15px;
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 68px;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.5;
+}
+
+.grievance-input::placeholder { color: rgba(245,230,211,0.25); }
+.grievance-input:focus { border-color: rgba(192,57,43,0.65); }
+
+.escalate-btn {
+  padding: 13px 22px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  border: none;
+  border-radius: 10px;
+  color: var(--cream);
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.escalate-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+
+.escalate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px var(--red-glow); }
+.escalate-btn:active { transform: translateY(0); }
+.escalate-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── THREAT PILLS ── */
+.pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.pill {
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 10px;
+  border: 1px solid rgba(192,57,43,0.2);
+  color: rgba(245,230,211,0.3);
+  background: transparent;
+  transition: all 0.3s;
+  letter-spacing: 0.3px;
+}
+
+.pill.hot {
+  border-color: rgba(192,57,43,0.6);
+  color: #f08070;
+  background: rgba(192,57,43,0.12);
+  box-shadow: 0 0 8px rgba(192,57,43,0.15);
+}
+
+/* ── OUTPUT ── */
+.output {
+  margin: 16px 0;
+  min-height: 180px;
+}
+
+.placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(245,230,211,0.25);
+  font-size: 13px;
+  border: 1px dashed rgba(192,57,43,0.2);
+  border-radius: 12px;
+}
+
+.placeholder-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+
+.response-card {
+  background: rgba(245,230,211,0.03);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-left: 3px solid var(--red);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.response-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(192,57,43,0.18);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mode-badge {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.badge-concerned { background: rgba(58,138,42,0.2); color: #7ec55a; border: 1px solid rgba(58,138,42,0.35); }
+.badge-escalation { background: rgba(212,172,13,0.2); color: #e0b860; border: 1px solid rgba(212,172,13,0.35); }
+.badge-nuclear { background: rgba(192,57,43,0.25); color: #f08070; border: 1px solid rgba(192,57,43,0.5); }
+.badge-self-important { background: rgba(120,60,180,0.25); color: #c090ff; border: 1px solid rgba(120,60,180,0.5); }
+.badge-redneck { background: rgba(196,124,32,0.25); color: #f0a040; border: 1px solid rgba(196,124,32,0.5); }
+
+.response-actions { display: flex; gap: 8px; }
+
+.action-btn {
+  background: transparent;
+  border: 1px solid rgba(245,230,211,0.18);
+  border-radius: 6px;
+  color: rgba(245,230,211,0.45);
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.action-btn:hover { border-color: rgba(245,230,211,0.4); color: var(--cream); }
+
+.response-body {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #eedfc8;
+  white-space: pre-wrap;
+}
+
+/* ── LOADING ── */
+.loading-card {
+  border: 1px solid rgba(192,57,43,0.25);
+  border-left: 3px solid var(--red);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.dots { display: inline-flex; gap: 6px; align-items: center; }
+
+.dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: dbounce 1.4s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dbounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-10px); opacity: 1; }
+}
+
+.loading-text {
+  margin-top: 12px;
+  font-size: 12px;
+  color: rgba(245,230,211,0.35);
+  letter-spacing: 1px;
+}
+
+/* ── STATS TICKER ── */
+.ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(12,4,4,0.95);
+  border-top: 1px solid rgba(192,57,43,0.25);
+  padding: 7px 0;
+  font-size: 10px;
+  color: rgba(245,230,211,0.3);
+  letter-spacing: 1.2px;
+  overflow: hidden;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+}
+
+.ticker-inner {
+  display: inline-block;
+  animation: scroll-left 30s linear infinite;
+  padding-right: 60px;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 20px 0 0;
+  font-size: 10px;
+  color: rgba(245,230,211,0.2);
+  letter-spacing: 1px;
+}
+
+/* ── ERROR ── */
+.error-card {
+  border: 1px solid rgba(192,57,43,0.5);
+  border-radius: 10px;
+  padding: 16px;
+  background: rgba(192,57,43,0.08);
+  color: #f08070;
+  font-size: 13px;
+  margin: 10px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">KAREN<span> AI</span></div>
+    <div class="tagline">Professional Grievance Escalation System™ — Australian Research Edition</div>
+  </div>
+
+  <!-- MODEL SELECT (API key hidden) -->
+  <div class="api-panel">
+    <span class="api-label">Model</span>
+    <select class="model-select" id="modelSelect">
+      <option value="meta/llama-3.3-70b-instruct">Llama 3.3 70B Instruct (Free)</option>
+      <option value="meta/llama-3.1-8b-instruct">Llama 3.1 8B Instruct (Free)</option>
+      <option value="nvidia/llama-3.1-nemotron-nano-8b-v1">Nemotron Nano 8B (Free)</option>
+      <option value="mistralai/mistral-7b-instruct-v0.3">Mistral 7B v0.3 (Free)</option>
+      <option value="google/gemma-3-12b-it">Gemma 3 12B (Free)</option>
+      <option value="qwen/qwen2.5-7b-instruct">Qwen 2.5 7B (Free)</option>
+      <option value="deepseek-ai/deepseek-r1-distill-qwen-7b">DeepSeek R1 Distill 7B (Free)</option>
+    </select>
+    <div class="api-status" title="NVIDIA NIM connected"></div>
+  </div>
+
+  <!-- OUTRAGE METER -->
+  <div class="outrage-bar">
+    <div class="outrage-row">
+      <span class="outrage-row-label">Outrage Meter</span>
+      <span class="outrage-name" id="outageName">Mildly Inconvenienced</span>
+    </div>
+    <div class="track">
+      <div class="fill" id="outageFill" style="width:12%;background-position:0%"></div>
+    </div>
+  </div>
+
+  <!-- MODES -->
+  <div class="modes">
+    <button class="mode-btn active" data-mode="concerned" onclick="setMode('concerned')">
+      <span class="mode-icon">😤</span>Concerned Customer
+    </button>
+    <button class="mode-btn" data-mode="escalation" onclick="setMode('escalation')">
+      <span class="mode-icon">⚖️</span>Escalation Mode
+    </button>
+    <button class="mode-btn" data-mode="nuclear" onclick="setMode('nuclear')">
+      <span class="mode-icon">☢️</span>Nuclear Option
+    </button>
+    <button class="mode-btn" data-mode="self-important" onclick="setMode('self-important')">
+      <span class="mode-icon">🎩</span>Self Important
+    </button>
+    <button class="mode-btn" data-mode="redneck" onclick="setMode('redneck')">
+      <span class="mode-icon">🤠</span>RedNeck Mode
+    </button>
+  </div>
+
+  <!-- THREAT PILLS -->
+  <div class="pills-wrap" id="pillsWrap">
+    <span class="pill" id="p-review">1-star review</span>
+    <span class="pill" id="p-bbb">ACCC complaint</span>
+    <span class="pill" id="p-facebook">facebook group</span>
+    <span class="pill" id="p-lawyer">solicitor friend</span>
+    <span class="pill" id="p-tiktok">TikTok exposé</span>
+    <span class="pill" id="p-news">ACA / Today Tonight</span>
+    <span class="pill" id="p-mayor">council/mayor</span>
+    <span class="pill" id="p-corporate">head office</span>
+    <span class="pill" id="p-linkedin">LinkedIn post</span>
+    <span class="pill" id="p-senate">senate inquiry</span>
+  </div>
+
+  <!-- QUICK COMPLAINTS -->
+  <div class="quick-section">
+    <div class="section-label">Quick Complaints</div>
+    <div class="quick-wrap">
+      <button class="qbtn" onclick="quick('My food was cold and the waiter rolled their eyes at me')">🍔 Cold food + attitude</button>
+      <button class="qbtn" onclick="quick('I waited 25 minutes and no one even acknowledged my existence')">⏱️ Ignored for 25 mins</button>
+      <button class="qbtn" onclick="quick('The product broke after one use and I want a full refund plus compensation for my time and emotional distress')">📦 Broken product</button>
+      <button class="qbtn" onclick="quick('I am a loyal customer of 14 years and this is how I am treated. Absolutely disgraceful.')">👑 14-year loyalty betrayed</button>
+      <button class="qbtn" onclick="quick('The manager refused to honor the coupon even though I printed it from your own website')">🎫 Coupon refused</button>
+      <button class="qbtn" onclick="quick('There was a hair in my meal and the staff laughed. I have photos.')">💇 Hair in meal (with evidence)</button>
+      <button class="qbtn" onclick="quick('I was speaking and the employee just walked away mid-sentence. I have never been so disrespected in my 62 years on this earth.')">🙄 Walked away mid-sentence</button>
+      <button class="qbtn" onclick="quick('The self-checkout machine charged me twice and the staff member implied I was lying')">💳 Double charged + accused</button>
+    </div>
+  </div>
+
+  <!-- MAIN INPUT -->
+  <div class="input-row">
+    <textarea class="grievance-input" id="grievanceInput" placeholder="Describe your grievance in detail. No injustice too small. No outrage too righteous..." rows="3"></textarea>
+    <button class="escalate-btn" id="escalateBtn" onclick="escalate()">ESCALATE ↑</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output" id="output">
+    <div class="placeholder">
+      <span class="placeholder-icon">😤</span>
+      <div>Enter your grievance and Karen will draft the perfect complaint.</div>
+      <div style="margin-top:6px;font-size:11px;opacity:0.7;">Requires NVIDIA NIM API key above.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    KAREN AI · Australian Research Tool · Powered by NVIDIA NIM · Results may cause managers to visibly sweat
+  </div>
+
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-inner" id="tickerText">
+    ⚠ COMPLAINTS FILED: 0 &nbsp;·&nbsp; MANAGERS SUMMONED: 0 &nbsp;·&nbsp; REFUNDS DEMANDED: $0.00 &nbsp;·&nbsp; LOYALTY YEARS CITED: 0 &nbsp;·&nbsp; ACCC THREATS: 0 &nbsp;·&nbsp; TIKTOKS THREATENED: 0 &nbsp;·&nbsp; ACA CALLS THREATENED: 0 &nbsp;·&nbsp; BOYCOTTS ORGANISED: 0 &nbsp;·&nbsp;
+  </span>
+</div>
+
+<script>
+// ── CONFIG — hits Cloudflare Worker proxy (key lives there, not here) ──
+// Replace this URL with your own after: wrangler deploy
+const NIM_URL = 'https://karen-ai-proxy.YOUR-SUBDOMAIN.workers.dev';
+let mode = 'concerned';
+let outrage = 12;
+const stats = { complaints:0, managers:0, refunds:0, loyalty:0, accc:0, tiktoks:0, aca:0, boycotts:0 };
+
+// ── MODE PROMPTS ──
+const modeConfig = {
+  concerned: {
+    label: '😤 Concerned Customer',
+    badge: 'badge-concerned',
+    outrageBoost: 15,
+    pills: ['p-review','p-facebook','p-corporate'],
+    loadingMsg: 'Composing wounded feelings...',
+    prompt: `You are Karen in "Concerned Customer" mode writing a complaint for an Australian consumer.
+Rules:
+- Open warmly but with DEEPLY wounded feelings
+- Reference years of loyalty and betrayal
+- "I'm not usually one to complain, but..."
+- Mention nearby Woolworths/Coles/local Aussie equivalent if relevant
+- Vaguely threaten a Google/Facebook review "reluctantly"
+- Ask to speak with or CC the manager
+- Reference Australian Consumer Law briefly as a gentle warning
+- End with false warmth: "I look forward to your prompt response, kind regards"
+- 3-4 short paragraphs. Passive-aggressive, not overtly hostile. Very Australian politeness masking deep fury.`
+  },
+  escalation: {
+    label: '⚖️ Escalation Mode',
+    badge: 'badge-escalation',
+    outrageBoost: 30,
+    pills: ['p-review','p-bbb','p-lawyer','p-corporate','p-facebook'],
+    loadingMsg: 'Citing consumer legislation...',
+    prompt: `You are Karen in "Escalation Mode" writing a formal complaint for an Australian consumer.
+Rules:
+- Open with "Dear [Business Name] Management Team,"
+- Cite specific Australian Consumer Law sections (vaguely but confidently)
+- Mention ACCC and "Fair Trading" as bodies you are prepared to contact
+- Reference a "friend who is a solicitor" who has "reviewed this matter"
+- Demand: full refund + additional compensation for "inconvenience, distress and time lost"
+- Set a firm 7 business day deadline or you proceed with formal complaints
+- Use CAPS sparingly for emphasis on key demands
+- Give a fake reference number like [COMPLAINT REF: KAI-2025-0847]
+- 4-5 paragraphs. Professional but unmistakably threatening.
+- Sign off: "Yours sincerely, [Your Name] — A Concerned Australian Consumer"`
+  },
+  nuclear: {
+    label: '☢️ Nuclear Option',
+    badge: 'badge-nuclear',
+    outrageBoost: 50,
+    pills: ['p-review','p-bbb','p-facebook','p-lawyer','p-tiktok','p-news','p-mayor','p-corporate','p-linkedin','p-senate'],
+    loadingMsg: 'Contacting the mayor...',
+    prompt: `You are Karen in "Nuclear Option" mode. THIS IS TOTAL WAR. Australian context.
+Rules:
+- Open with "FINAL NOTICE — LEGAL ACTION IMMINENT"
+- Threaten: TikTok video ("my 52,000 followers will hear about this"), A Current Affair, Today Tonight, local council, ACCC formal complaint, Fair Trading NSW/QLD/VIC, a solicitor's letter, local MP, a Change.org petition
+- "This incident has already been shared in 4 local Facebook community groups including [Suburb Name] Community Noticeboard"
+- Demand: full refund, written apology from CEO, policy change, staff retraining, $500 gift card for "emotional damages"
+- "I am also in contact with other affected customers and we are organising collectively"
+- Mention you have dashcam footage / photos / a witness
+- Absolutely unhinged energy but stop short of actual threats
+- 5-6 paragraphs of pure Karen fury. Use dramatic line breaks and occasional ALL CAPS.
+- End with: "Do not test me. I have time. And a printer."`
+  },
+  'self-important': {
+    label: '🎩 Self Important',
+    badge: 'badge-self-important',
+    outrageBoost: 35,
+    pills: ['p-linkedin','p-corporate','p-senate','p-lawyer'],
+    loadingMsg: 'Inflating personal significance...',
+    prompt: `You are Karen in maximum self-importance mode. The complainer believes they are an extraordinarily significant person. Australian context.
+Rules:
+- Drop credentials constantly: "As a business owner / property investor / LinkedIn thought leader / former board member / Rotary Club president..."
+- Imply you personally know the CEO or "move in the same circles"
+- Reference your "extensive network" and "influence in this community"
+- Mention you've already "briefed your PA" on this matter
+- Use corporate buzzwords: "brand equity", "stakeholder trust", "reputational risk"
+- Casually mention this is "the third property you own in this suburb"
+- Threaten to bring it up at an industry event, networking function, or business breakfast you're speaking at
+- Write in an exaggeratedly formal, condescending register as if addressing a subordinate
+- Sign off with your full name, title(s), and a vague company name
+- 4-5 paragraphs of magnificent pomposity.`
+  },
+  redneck: {
+    label: '🤠 RedNeck Mode',
+    badge: 'badge-redneck',
+    outrageBoost: 40,
+    pills: ['p-facebook','p-review','p-mayor','p-news'],
+    loadingMsg: 'Loading righteous fury...',
+    prompt: `You are Karen in full Aussie redneck/bogan mode. Pure regional Australian outrage. 
+Rules:
+- Write in broad Australian vernacular: "mate", "bloody", "strewth", "fair dinkum", "deadset", "mongrel", "dropkick", "ya mug", "c'mon", "reckon"
+- Reference: the servo, the bowser, the footy, Bunnings, the ute, the missus, the pub, the BBQ
+- Mention the bloke/sheila who did the wrong thing by ya
+- "I've been coming here since before you were born, mate"
+- Threaten to "tell every bloke at the pub" and "post it on the Facebooks"
+- Reference the local MP by first name as if they're mates
+- Mention working hard for a living and not being mugged off
+- Spell some words phonetically for effect
+- Pure passion, zero grammar crimes intentional, big energy
+- End with something like "Fix it or I'm goin' straight to A Current Affair, no dramas" 
+- 3-4 paragraphs of absolute bogan magnificence.`
+  }
+};
+
+// ── MODE ──
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === m);
+  });
+  const cfg = modeConfig[m];
+  const newOutrage = Math.min(100, Math.max(outrage, cfg.outrageBoost));
+  setOutrage(newOutrage);
+  updatePills(cfg.pills);
+}
+
+function updatePills(activePills) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('hot'));
+  activePills.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hot');
+  });
+}
+
+function setOutrage(val) {
+  outrage = Math.min(100, val);
+  const fill = document.getElementById('outageFill');
+  const label = document.getElementById('outageName');
+  fill.style.width = outrage + '%';
+  fill.style.backgroundPosition = outrage + '% 0%';
+
+  const levels = [
+    [15,  'Mildly Inconvenienced'],
+    [30,  'Passive-Aggressive'],
+    [45,  'Demanding a Manager'],
+    [60,  'Legally Threatening'],
+    [75,  'Going Nuclear'],
+    [88,  'Full Karen Activated'],
+    [100, '☢ DEFCON KAREN ☢'],
+  ];
+
+  label.textContent = levels.find(([thresh]) => outrage <= thresh)?.[1] ?? '☢ DEFCON KAREN ☢';
+}
+
+// ── QUICK COMPLAINT ──
+function quick(text) {
+  document.getElementById('grievanceInput').value = text;
+  escalate();
+}
+
+// ── ESCALATE ──
+async function escalate() {
+  const grievance = document.getElementById('grievanceInput').value.trim();
+  if (!grievance) { alert('Describe your grievance first, love.'); return; }
+
+  const model = document.getElementById('modelSelect').value;
+  const cfg = modeConfig[mode];
+  const btn = document.getElementById('escalateBtn');
+
+  btn.disabled = true;
+  setOutrage(Math.min(100, outrage + cfg.outrageBoost * 0.4));
+
+  // Update stats
+  stats.complaints++;
+  stats.managers++;
+  if (mode === 'escalation' || mode === 'nuclear') { stats.accc++; stats.refunds += Math.floor(Math.random()*300+100); }
+  if (mode === 'nuclear') { stats.tiktoks++; stats.aca++; stats.boycotts++; }
+  if (mode === 'redneck') { stats.managers++; }
+  if (mode === 'self-important') { stats.refunds += Math.floor(Math.random()*500+200); }
+  if (grievance.toLowerCase().includes('loyal') || grievance.match(/\d+\s*year/)) stats.loyalty += Math.floor(Math.random()*10+5);
+
+  updatePills(cfg.pills);
+  updateTicker();
+
+  document.getElementById('output').innerHTML = `
+    <div class="loading-card">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="loading-text">${cfg.loadingMsg}</div>
+    </div>`;
+
+  try {
+    const response = await fetch(NIM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: 'system', content: cfg.prompt },
+          { role: 'user', content: `GRIEVANCE: ${grievance}\n\nWrite the complaint now. Australian context. Do not add any preamble or meta-commentary — just the complaint letter/message itself.` }
+        ],
+        max_tokens: 900,
+        temperature: 0.85,
+        top_p: 0.95
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err?.detail || err?.message || `HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data.choices?.[0]?.message?.content?.trim() || 'No response generated.';
+
+    setOutrage(Math.min(100, outrage + 10));
+
+    document.getElementById('output').innerHTML = `
+      <div class="response-card">
+        <div class="response-top">
+          <span class="mode-badge ${cfg.badge}">${cfg.label}</span>
+          <div class="response-actions">
+            <button class="action-btn" onclick="copyResponse()">Copy ↗</button>
+            <button class="action-btn" onclick="escalateMode()">Escalate Mode ↑</button>
+          </div>
+        </div>
+        <div class="response-body" id="responseBody">${escapeHtml(text)}</div>
+      </div>`;
+
+  } catch(err) {
+    document.getElementById('output').innerHTML = `
+      <div class="error-card">
+        <strong>API Error:</strong> ${escapeHtml(err.message)}<br><br>
+        <small>Try selecting a different free model from the dropdown above.</small>
+      </div>`;
+  }
+
+  btn.disabled = false;
+}
+
+// ── HELPERS ──
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function copyResponse() {
+  const el = document.getElementById('responseBody');
+  if (!el) return;
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    const btns = document.querySelectorAll('.action-btn');
+    btns[0].textContent = 'Copied!';
+    setTimeout(() => btns[0] && (btns[0].textContent = 'Copy ↗'), 2000);
+  });
+}
+
+function escalateMode() {
+  const order = ['concerned','escalation','nuclear','self-important','redneck'];
+  const next = order[(order.indexOf(mode)+1) % order.length];
+  setMode(next);
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    if (b.dataset.mode === next) b.click();
+  });
+}
+
+function updateTicker() {
+  document.getElementById('tickerText').textContent =
+    `⚠ COMPLAINTS FILED: ${stats.complaints}  ·  MANAGERS SUMMONED: ${stats.managers}  ·  REFUNDS DEMANDED: $${stats.refunds.toFixed(2)}  ·  LOYALTY YEARS CITED: ${stats.loyalty}  ·  ACCC THREATS: ${stats.accc}  ·  TIKTOKS THREATENED: ${stats.tiktoks}  ·  ACA CALLS THREATENED: ${stats.aca}  ·  BOYCOTTS ORGANISED: ${stats.boycotts}  ·  `;
+}
+
+</script>
+</body>
+</html>
